@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Music Sheet Recognition</h1>
+        <form action="/process_image" method="POST" enctype="multipart/form-data">
+            <input type="file" name="music_sheet" accept="image/*" required>
+            <input type="text" name="instrument_name" placeholder="Instrument Name">
+            <input type="number" name="temp" placeholder="Temp">
+            <input type="file" name="input_file" accept="image/*">
+            <button type="submit">Submit</button>
+        </form>
+        {% if music_file %}
+        <audio controls>
+            <source src="{{ request.base_url }}/static/{{ music_file }}" type="audio/midi">
+            Your browser does not support the audio element.
+        </audio>
+        {% endif %}
+    </div>
+    <script>
+        function selectInstrument(instrument) {
+            alert("Selected instrument: " + instrument);
+        }
+    </script>
+{% endblock %}
