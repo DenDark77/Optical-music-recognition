@@ -7,19 +7,15 @@
             <input type="file" name="music_sheet" accept="image/*" required>
             <input type="text" name="instrument_name" placeholder="Instrument Name">
             <input type="number" name="temp" placeholder="Temp">
-            <input type="file" name="input_file" accept="image/*">
             <button type="submit">Submit</button>
         </form>
         {% if music_file %}
         <audio controls>
-            <source src="{{ request.base_url }}/static/{{ music_file }}" type="audio/midi">
-            Your browser does not support the audio element.
+            <source src="https://michael-zhigulin.github.io/mz-codepen-projects/Material%20Design%20UI%20Audio%20Player/audio/Tim%20Minchin%20%E2%80%94%20Rock%20n%20Roll%20Nerd.ogg" type="audio/ogg">
         </audio>
         {% endif %}
+        {% if photo %}
+        <img src="{{ photo_url }}">
+        {% endif %}
     </div>
-    <script>
-        function selectInstrument(instrument) {
-            alert("Selected instrument: " + instrument);
-        }
-    </script>
 {% endblock %}

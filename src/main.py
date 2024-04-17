@@ -1,9 +1,10 @@
 import os
+
+from pathlib import Path
 from fastapi import FastAPI, Request, HTTPException, File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from io import BytesIO
 from shutil import copyfileobj
 
 from recognize.music import notes_to_music_with_instrument
@@ -16,6 +17,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 UPLOAD_DIR = "uploads"
+MUSIC_DIR = "music"
 if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
 
@@ -23,16 +25,25 @@ if not os.path.exists(UPLOAD_DIR):
 @app.get("/")
 async def index(request: Request):
     return templates.TemplateResponse(
-        request=request, name="base.html"
+        request=request, name="home.html"
     )
 
 
 @app.get("/process_image", response_class=HTMLResponse)
 async def get_process_image(request: Request):
-    return templates.TemplateResponse("result.html", {"request": request})
+    file_path = os.path.join(MUSIC_DIR, "music.mid")
+
+    if os.path.exists(file_path):
+        with open(file_path, "rb") as file:
+            result = file.read()
+        os.remove(file_path)
+
+        return templates.TemplateResponse("result.html", {"request": request, "music_file": result})
+    else:
+        return templates.TemplateResponse("result.html", {"request": request})
 
 
-@app.post("/process_image")
+@app.post("/process_image", response_class=HTMLResponse)
 async def process_image(
         request: Request,
         instrument_name: str = Form(...),
@@ -45,9 +56,11 @@ async def process_image(
             copyfileobj(music_sheet.file, file)
 
         result = notes_to_music_with_instrument(file_path, instrument_name, temp)
-        print(result)
-        file_path = "music_with_violin.mid"
-        result.write('midi', fp=file_path)
-        return templates.TemplateResponse("result.html", {"request": request, "music_file": result, "instrument_name": instrument_name, "temp": temp})
+        result_file_path = os.path.join(MUSIC_DIR, "music.mid")
+        result.write('midi', fp=result_file_path)
+
+        photo_url = f"/uploads/{Path(file_path).name}"
+        return templates.TemplateResponse("result.html", {"request": request, "music_file": result, "instrument_name": instrument_name, "temp": temp, "photo_url": photo_url})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
