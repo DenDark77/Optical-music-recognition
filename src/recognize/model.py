@@ -28,7 +28,6 @@ accidentals = ['x', 'hash', 'b', 'symbol_bb', 'd']
 
 def preprocessing(inputfolder):
     # Get image and its dimensions #
-    print(inputfolder)
     height, width, in_img = preprocess_img(f'{inputfolder}')
 
     # Get line thinkness and list of staff lines #
@@ -120,28 +119,4 @@ def process_image(inputfolder):
         results.append(result)
 
     return results
-
-
-# def main():
-#     try:
-#         os.mkdir(args.outputfolder)
-#     except OSError as error:
-#         pass
-#
-#     list_of_images = os.listdir(args.inputfolder)
-#     for _, fn in enumerate(list_of_images):
-#         # Open the output text file #
-#         file_prefix = fn.split('.')[0]
-#         f = open(f"{args.outputfolder}/{file_prefix}.txt", "w")
-#
-#         # Process each image separately #
-#         try:
-#             process_image(args.inputfolder, fn, f)
-#         except Exception as e:
-#             print(e)
-#             print(f'{args.inputfolder}-{fn} has been failed !!')
-#             pass
-#
-#         f.close()
-#     print('Finished !!')
 

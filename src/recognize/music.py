@@ -3,12 +3,12 @@ import pandas as pd
 from .model import process_image
 
 
-def notes_to_music_with_instrument(input_file, instrument_name, temp):
+def notes_to_music_with_instrument(notes_data, instrument_name, temp):
     music_stream = stream.Stream()
-    prediction = process_image(input_file)
+    print(notes_data.split)
     instr = instrument.fromString(instrument_name)
     music_stream.insert(0, instr)
-    for note_name in prediction[0]:
+    for note_name in notes_data.split():
         if note_name != '.':
             if '{' in note_name:
                 notes_with_duration = note_name.strip('{}').split(',')
@@ -27,3 +27,11 @@ def notes_to_music_with_instrument(input_file, instrument_name, temp):
     music_stream.insert(0, tempo.MetronomeMark(number=temp))
 
     return music_stream
+
+
+def prediction(input_file):
+    print(input_file)
+    prediction_note = process_image(input_file)
+    unpacked_data = prediction_note[0]
+    formatted_data = " ".join(unpacked_data)
+    return formatted_data

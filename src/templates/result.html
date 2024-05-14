@@ -1,21 +1,35 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <div class="container">
-        <h1>Music Sheet Recognition</h1>
-        <form action="/process_image" method="POST" enctype="multipart/form-data">
-            <input type="file" name="music_sheet" accept="image/*" required>
-            <input type="text" name="instrument_name" placeholder="Instrument Name">
-            <input type="number" name="temp" placeholder="Temp">
-            <button type="submit">Submit</button>
+    <div class="container d-flex flex-column align-items-center">
+        <h1 class="mb-4">Music Sheet Recognition</h1>
+        <form action="/process_image" method="POST" enctype="multipart/form-data" class="mb-4">
+            <div class="custom-file mb-2">
+                <input type="file" class="custom-file-input form" name="music_sheet" accept="image/*" id="Input">
+                <label class="custom-file-label" for="Input" >Choose file</label>
+            </div>
+            <input type="text" name="instrument_name" placeholder="Instrument Name" class="form-control mb-2">
+            <input type="number" name="temp" placeholder="Temp" class="form-control mb-2">
+            <button type="submit" class="btn btn-primary btn-sm mb-2">Розпізнати</button>
+            {% if array_data %}
+                <textarea rows="5" cols="60" name="notes_data" class="form-control mb-2">{{ array_data }}</textarea>
+            {% else %}
+                <textarea rows="5" cols="60" name="notes_data" placeholder="Enter notes here" class="form-control mb-2"></textarea>
+            {% endif %}
+            <button type="submit" class="btn btn-primary btn-sm">Генерувати музику</button>
         </form>
+        {% if photo_url %}
+            <img src="{{ photo_url }}" alt="Uploaded Image" class="mb-4">
+        {% endif %}
         {% if music_file %}
-        <audio controls>
-            <source src="https://michael-zhigulin.github.io/mz-codepen-projects/Material%20Design%20UI%20Audio%20Player/audio/Tim%20Minchin%20%E2%80%94%20Rock%20n%20Roll%20Nerd.ogg" type="audio/ogg">
-        </audio>
+            <audio controls class="mb-4">
+                <source src="https://michael-zhigulin.github.io/mz-codepen-projects/Material%20Design%20UI%20Audio%20Player/audio/Tim%20Minchin%20%E2%80%94%20Rock%20n%20Roll%20Nerd.ogg" type="audio/ogg">
+            </audio>
         {% endif %}
         {% if photo %}
-        <img src="{{ photo_url }}">
+        <img src="{{ photo_url }}" class="mb-4">
         {% endif %}
     </div>
 {% endblock %}
+
+
