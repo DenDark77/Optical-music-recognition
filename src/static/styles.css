@@ -50,3 +50,8 @@ audio {
     margin-top: 20px;
     width: 100%;
 }
+
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}

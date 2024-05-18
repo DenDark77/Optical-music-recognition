@@ -5,7 +5,6 @@ from .model import process_image
 
 def notes_to_music_with_instrument(notes_data, instrument_name, temp):
     music_stream = stream.Stream()
-    print(notes_data.split)
     instr = instrument.fromString(instrument_name)
     music_stream.insert(0, instr)
     for note_name in notes_data.split():
@@ -30,7 +29,6 @@ def notes_to_music_with_instrument(notes_data, instrument_name, temp):
 
 
 def prediction(input_file):
-    print(input_file)
     prediction_note = process_image(input_file)
     unpacked_data = prediction_note[0]
     formatted_data = " ".join(unpacked_data)

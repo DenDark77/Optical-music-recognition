@@ -8,26 +8,58 @@
                 <input type="file" class="custom-file-input form" name="music_sheet" accept="image/*" id="Input">
                 <label class="custom-file-label" for="Input" >Choose file</label>
             </div>
-            <input type="text" name="instrument_name" placeholder="Instrument Name" class="form-control mb-2">
-            <input type="number" name="temp" placeholder="Temp" class="form-control mb-2">
-            <button type="submit" class="btn btn-primary btn-sm mb-2">Розпізнати</button>
+
+            <button type="submit" class="btn btn-primary btn-sm mb-2">Recognize</button>
+            {% if photo_url %}
+                <img src="{{ photo_url }}" alt="Uploaded Image" class="img-fluid mb-4">
+            {% endif %}
             {% if array_data %}
                 <textarea rows="5" cols="60" name="notes_data" class="form-control mb-2">{{ array_data }}</textarea>
+                <select name="instrument_name" class="form-control mb-2">
+                    <option value="piano">Piano</option>
+                    <option value="guitar">Guitar</option>
+                    <option value="violin">Violin</option>
+                    <option value="cello">Cello</option>
+                    <option value="flute">Flute</option>
+                    <option value="trumpet">Trumpet</option>
+                    <option value="saxophon">Saxophon</option>
+                    <option value="clarinet">Clarinet</option>
+                    <option value="harpsichord">Harpsichord</option>
+                    <option value="viola">Viola</option>
+                    <option value="organ">Organ</option>
+                    <option value="drums">Drums</option>
+                    <option value="timpani">Timpani</option>
+                    <option value="vibraphone">Vibraphone</option>
+                    <option value="maracas">Maracas</option>
+                </select>
+                <input type="number" name="temp" placeholder="Temp 1-1000" class="form-control mb-2" required>
             {% else %}
                 <textarea rows="5" cols="60" name="notes_data" placeholder="Enter notes here" class="form-control mb-2"></textarea>
+                <select name="instrument_name" class="form-control mb-2">
+                    <option value="piano">Piano</option>
+                    <option value="guitar">Guitar</option>
+                    <option value="violin">Violin</option>
+                    <option value="cello">Cello</option>
+                    <option value="flute">Flute</option>
+                    <option value="trumpet">Trumpet</option>
+                    <option value="saxophon">Saxophon</option>
+                    <option value="clarinet">Clarinet</option>
+                    <option value="harpsichord">Harpsichord</option>
+                    <option value="viola">Viola</option>
+                    <option value="organ">Organ</option>
+                    <option value="drums">Drums</option>
+                    <option value="timpani">Timpani</option>
+                    <option value="vibraphone">Vibraphone</option>
+                    <option value="maracas">Maracas</option>
+                </select>
+                <input type="number" name="temp" placeholder="Temp" class="form-control mb-2">
             {% endif %}
-            <button type="submit" class="btn btn-primary btn-sm">Генерувати музику</button>
+        <button type="submit" class="btn btn-primary btn-sm">Generate music</button>
         </form>
-        {% if photo_url %}
-            <img src="{{ photo_url }}" alt="Uploaded Image" class="mb-4">
-        {% endif %}
         {% if music_file %}
             <audio controls class="mb-4">
-                <source src="https://michael-zhigulin.github.io/mz-codepen-projects/Material%20Design%20UI%20Audio%20Player/audio/Tim%20Minchin%20%E2%80%94%20Rock%20n%20Roll%20Nerd.ogg" type="audio/ogg">
+                <source src="{{ music_file }}" type="audio/wav">
             </audio>
-        {% endif %}
-        {% if photo %}
-        <img src="{{ photo_url }}" class="mb-4">
         {% endif %}
     </div>
 {% endblock %}
